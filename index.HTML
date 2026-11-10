@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clip Studio - Extractor de Clips</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --accent: #6366f1;
+            --accent-hover: #4f46e5;
+            --text: #f8fafc;
+            --subtext: #94a3b8;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 480px;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        p.subtitle {
+            color: var(--subtext);
+            font-size: 0.9rem;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.85rem;
+            margin-bottom: 6px;
+            color: var(--subtext);
+        }
+
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #334155;
+            background-color: #0f172a;
+            color: var(--text);
+            box-sizing: border-box;
+            font-size: 0.95rem;
+        }
+
+        .time-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .options-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .checkbox-card {
+            flex: 1;
+            background-color: #0f172a;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #334155;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        button.btn-submit {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.2s;
+        }
+
+        button.btn-submit:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .status-box {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            display: none;
+            text-align: center;
+        }
+
+        .status-box.active {
+            display: block;
+            background-color: #334155;
+            color: var(--text);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>✂️ Clip Studio</h1>
+    <p class="subtitle">Extrae clips verticales de YouTube para TikTok y Facebook</p>
+
+    <form id="clipForm">
+        <div class="form-group">
+            <label for="url">Enlace del Video o En Vivo de YouTube</label>
+            <input type="text" id="url" placeholder="https://www.youtube.com/watch?v=..." required>
+        </div>
+
+        <div class="time-inputs">
+            <div class="form-group">
+                <label for="startTime">Inicio (segundos o mm:ss)</label>
+                <input type="text" id="startTime" placeholder="00:30" required>
+            </div>
+            <div class="form-group">
+                <label for="endTime">Fin (segundos o mm:ss)</label>
+                <input type="text" id="endTime" placeholder="01:00" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Formato de Salida</label>
+            <select id="aspectRatio">
+                <option value="9:16">Vertical (9:16 - TikTok / Reels)</option>
+                <option value="16:9">Horizontal (16:9 - Original)</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Publicar directamente en:</label>
+            <div class="options-group">
+                <label class="checkbox-card">
+                    <input type="checkbox" id="destTikTok"> TikTok
+                </label>
+                <label class="checkbox-card">
+                    <input type="checkbox" id="destFacebook"> Facebook
+                </label>
+            </div>
+        </div>
+
+        <button type="submit" class="btn-submit">Generar Clip</button>
+    </form>
+
+    <div id="status" class="status-box"></div>
+</div>
+
+<script>
+    document.getElementById('clipForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const status = document.getElementById('status');
+        
+        status.className = 'status-box active';
+        status.textContent = '⏳ Conectando con el servidor de procesamiento...';
+
+        // Aquí enviaremos la solicitud a nuestro backend (Paso 2)
+    });
+</script>
+
+</body>
+</html>
